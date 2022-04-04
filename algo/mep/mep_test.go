@@ -79,3 +79,36 @@ func TestAlgo_Calc(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkAlgoCalc(b *testing.B) {
+	algo := &Algo{}
+	inputs := []aqi.Var{
+		{
+			P:     aqi.Pollutant_PM2_5_1H,
+			Value: 16,
+		},
+		{
+			P:     aqi.Pollutant_PM10_1H,
+			Value: 88,
+		},
+		{
+			P:     aqi.Pollutant_CO_1H,
+			Value: 0.2,
+		},
+		{
+			P:     aqi.Pollutant_SO2_1H,
+			Value: 3,
+		},
+		{
+			P:     aqi.Pollutant_NO2_1H,
+			Value: 11,
+		},
+		{
+			P:     aqi.Pollutant_O3_1H,
+			Value: 75,
+		},
+	}
+	for i := 0; i < b.N; i++ {
+		algo.Calc(inputs...)
+	}
+}
