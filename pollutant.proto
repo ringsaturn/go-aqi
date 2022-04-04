@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package aqi;
+
+option go_package = "./;aqi";
+
+enum pollutant {
+  UNKNOWN = 0;
+  O3_1H = 10;
+  O3_8H = 11;
+  PM2_5_1H = 20;
+  PM2_5_24H = 21;
+  PM10_1H = 30;
+  PM10_24H = 31;
+  SO2_1H = 40;
+  SO2_24H = 41;
+  NO2_1H = 50;
+  NO2_24H = 51;
+  CO_1H = 60;
+  CO_8H = 61;
+  CO_24H = 62;
+}
