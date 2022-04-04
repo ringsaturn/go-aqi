@@ -8,6 +8,8 @@ import (
 	"github.com/ringsaturn/aqi"
 )
 
+var _ aqi.StandardWithColor = &Algo{}
+
 func ExampleAlgo_Calc() {
 	algo := &Algo{}
 	inputs := []aqi.Var{
@@ -42,6 +44,16 @@ func ExampleAlgo_Calc() {
 	}
 	fmt.Printf("aqi=%v with primary pollutant as %v\n", aqi, primaryPollutant)
 	// Output: aqi=69 with primary pollutant as [PM10_1H]
+}
+
+func ExampleAlgo_AQIToColor() {
+	algo := &Algo{}
+	rgba, err := algo.AQIToColor(33)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%v", rgba)
+	// Output: &{0 255 0 0}
 }
 
 func TestAlgo_Calc(t *testing.T) {

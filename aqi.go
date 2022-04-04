@@ -13,12 +13,12 @@ type Var struct {
 type Standard interface {
 	Name() string
 	// Calc 返回多个污染物表示并列首要污染物
-	Calc(...Var) ([]*Var, error)
+	Calc(pollutantVars ...Var) (int, []Pollutant, error)
 }
 
 type StandardWithColor interface {
 	Standard
-	AQIToColor(aqi int) (color.Alpha, error)
+	AQIToColor(aqi int) (*color.RGBA, error)
 }
 
 func GetRanges(value float32, pIndexRange []float32, aqiIndexRange []float32) (iaqiLo, iaqiHi, pLo, pHi float32, err error) {
