@@ -6,6 +6,7 @@ package epa
 
 import (
 	"fmt"
+	"image/color"
 
 	"github.com/ringsaturn/aqi"
 )
@@ -21,6 +22,36 @@ var Tables = map[aqi.Pollutant][]float32{
 	aqi.Pollutant_PM2_5_24H: {0, 12, 35.4, 55.4, 150.4, 250.4, 350.4, 500.4},  // μg/m3
 	aqi.Pollutant_PM10_1H:   {0, 54, 154, 254, 354, 424, 504, 604},            // μg/m3
 	aqi.Pollutant_PM10_24H:  {0, 54, 154, 254, 354, 424, 504, 604},            // μg/m3
+}
+
+type AQILevel int
+
+const (
+	LEVEL_UNDEFINE AQILevel = iota
+	LEVEL1
+	LEVEL2
+	LEVEL3
+	LEVEL4
+	LEVEL5
+	LEVEL6
+)
+
+var LevelToColor = map[AQILevel]*color.RGBA{
+	LEVEL1: {R: 0, G: 228, B: 0},
+	LEVEL2: {R: 255, G: 255, B: 0},
+	LEVEL3: {R: 255, G: 126, B: 0},
+	LEVEL4: {R: 255, G: 0, B: 0},
+	LEVEL5: {R: 143, G: 63, B: 151},
+	LEVEL6: {R: 126, G: 0, B: 35},
+}
+
+var LevelToDesc = map[AQILevel]string{
+	LEVEL1: "Good",
+	LEVEL2: "Moderate",
+	LEVEL3: "Unhealthy for Sensitive Groups",
+	LEVEL4: "Unhealthy",
+	LEVEL5: "Very Unhealthy",
+	LEVEL6: "Hazardous",
 }
 
 type Algo struct {
@@ -84,4 +115,39 @@ func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
 		}
 	}
 	return maxAQI, primaryPollutants, nil
+}
+
+func (a *Algo) AQIToLevel(aqi int) AQILevel {
+	if aqi <= 50 {
+		return LEVEL1
+	}
+	if aqi <= 100 {
+		return LEVEL2
+	}
+	if aqi <= 150 {
+		return LEVEL3
+	}
+	if aqi <= 200 {
+		return LEVEL4
+	}
+	if aqi <= 300 {
+		return LEVEL5
+	}
+	return LEVEL6
+}
+
+func (a *Algo) AQIToColor(aqi int) (*color.RGBA, error) {
+	rgba, ok := LevelToColor[a.AQIToLevel(aqi)]
+	if !ok {
+		return nil, fmt.Errorf("unknown aqi level for color")
+	}
+	return rgba, nil
+}
+
+func (a *Algo) AQIToDesc(aqi int) (string, error) {
+	desc, ok := LevelToDesc[a.AQIToLevel(aqi)]
+	if !ok {
+		return "", fmt.Errorf("unknown aqi level for desc")
+	}
+	return desc, nil
 }

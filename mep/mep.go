@@ -48,6 +48,15 @@ var LevelToColor = map[AQILevel]*color.RGBA{
 	LEVEL6: {R: 126, G: 0, B: 35},
 }
 
+var LevelToDesc = map[AQILevel]string{
+	LEVEL1: "优",
+	LEVEL2: "良",
+	LEVEL3: "轻度污染",
+	LEVEL4: "中度污染",
+	LEVEL5: "重度污染",
+	LEVEL6: "严重污染",
+}
+
 type Algo struct {
 	FailedWhenNotSupported bool
 }
@@ -132,7 +141,15 @@ func (a *Algo) AQIToLevel(aqi int) AQILevel {
 func (a *Algo) AQIToColor(aqi int) (*color.RGBA, error) {
 	rgba, ok := LevelToColor[a.AQIToLevel(aqi)]
 	if !ok {
-		return nil, fmt.Errorf("")
+		return nil, fmt.Errorf("unknown aqi level for color")
 	}
 	return rgba, nil
+}
+
+func (a *Algo) AQIToDesc(aqi int) (string, error) {
+	desc, ok := LevelToDesc[a.AQIToLevel(aqi)]
+	if !ok {
+		return "", fmt.Errorf("unknown aqi level for desc")
+	}
+	return desc, nil
 }
