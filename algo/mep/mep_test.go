@@ -109,6 +109,6 @@ func BenchmarkAlgoCalc(b *testing.B) {
 		},
 	}
 	for i := 0; i < b.N; i++ {
-		algo.Calc(inputs...)
+		_, _, _ = algo.Calc(inputs...)
 	}
 }
