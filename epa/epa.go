@@ -8,7 +8,6 @@ import (
 	"fmt"
 
 	"github.com/ringsaturn/aqi"
-	"github.com/ringsaturn/aqi/algo"
 )
 
 var Tables = map[aqi.Pollutant][]float32{
@@ -61,12 +60,12 @@ func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
 			continue
 		}
 
-		iaqiLo, iaqiHi, pLo, pHi, err := algo.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[aqi.Pollutant_AQI])
+		iaqiLo, iaqiHi, pLo, pHi, err := aqi.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[aqi.Pollutant_AQI])
 		if err != nil {
 			return 0, nil, err
 		}
 
-		aqi, err := algo.CalcViaHiLo(pollutantVar.Value, iaqiLo, iaqiHi, pLo, pHi)
+		aqi, err := aqi.CalcViaHiLo(pollutantVar.Value, iaqiLo, iaqiHi, pLo, pHi)
 		if err != nil {
 			return 0, nil, err
 		}

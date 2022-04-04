@@ -1,11 +1,48 @@
 package mep
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
 	"github.com/ringsaturn/aqi"
 )
+
+func ExampleAlgo_Calc() {
+	algo := &Algo{}
+	inputs := []aqi.Var{
+		{
+			P:     aqi.Pollutant_PM2_5_1H,
+			Value: 16,
+		},
+		{
+			P:     aqi.Pollutant_PM10_1H,
+			Value: 88,
+		},
+		{
+			P:     aqi.Pollutant_CO_1H,
+			Value: 0.2,
+		},
+		{
+			P:     aqi.Pollutant_SO2_1H,
+			Value: 3,
+		},
+		{
+			P:     aqi.Pollutant_NO2_1H,
+			Value: 11,
+		},
+		{
+			P:     aqi.Pollutant_O3_1H,
+			Value: 75,
+		},
+	}
+	aqi, primaryPollutant, err := algo.Calc(inputs...)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("aqi=%v with primary pollutant as %v\n", aqi, primaryPollutant)
+	// Output: aqi=69 with primary pollutant as [PM10_1H]
+}
 
 func TestAlgo_Calc(t *testing.T) {
 	type fields struct {
@@ -67,14 +104,14 @@ func TestAlgo_Calc(t *testing.T) {
 			}
 			got, got1, err := a.Calc(tt.args.pollutantVars...)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Algo.Calc() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("aqi.Calc() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("Algo.Calc() got = %v, want %v", got, tt.want)
+				t.Errorf("aqi.Calc() got = %v, want %v", got, tt.want)
 			}
 			if !reflect.DeepEqual(got1, tt.want1) {
-				t.Errorf("Algo.Calc() got1 = %v, want %v", got1, tt.want1)
+				t.Errorf("aqi.Calc() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
