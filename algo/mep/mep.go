@@ -1,4 +1,7 @@
 // Package mep is for HJ633-2012
+//
+// Offical Doc
+// https://www.mee.gov.cn/ywgz/fgbz/bz/bzwb/jcffbz/201203/t20120302_224166.shtml
 package mep
 
 import (

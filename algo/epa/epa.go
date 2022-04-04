@@ -1,3 +1,7 @@
+// Package epa is impl for EPA 454/B-18-007
+//
+// Offical Doc
+// https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=P100W5UG.TXT
 package epa
 
 import (
@@ -28,6 +32,7 @@ func (a *Algo) Name() string {
 	return "epa"
 }
 
+// Calc is func for realtime AQI report computing.
 func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
 	var (
 		results = make(map[aqi.Pollutant]int)
@@ -41,6 +46,18 @@ func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
 				return 0, nil, fmt.Errorf("pollutant %v not supported yet", pollutantVar.P.String())
 			}
 			// allow input not supported pollutant, just continue
+			continue
+		}
+
+		// 8-hour O 3 values do not define higher AQI values (≥ 301).
+		// AQI values of 301 or higher are calculated with 1-hour O 3 concentrations.
+		if pollutantVar.P == aqi.Pollutant_O3_8H && pollutantVar.Value > 0.2 {
+			continue
+		}
+
+		// 1-hour SO 2 values do not define higher AQI values (≥ 200).
+		// AQI values of 200 or greater are calculated with 24-hour SO 2 concentrations.
+		if pollutantVar.P == aqi.Pollutant_SO2_1H && pollutantVar.Value > 304 {
 			continue
 		}
 
