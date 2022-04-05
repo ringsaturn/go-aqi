@@ -63,7 +63,7 @@ func (a *Algo) Name() string {
 }
 
 // Calc is func for realtime AQI report computing.
-func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
+func (a *Algo) Calc(pollutantVars ...*aqi.Var) (int, []aqi.Pollutant, error) {
 	var (
 		results = make(map[aqi.Pollutant]int)
 		maxAQI  int
@@ -91,15 +91,20 @@ func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
 			continue
 		}
 
-		iaqiLo, iaqiHi, pLo, pHi, err := aqi.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[aqi.Pollutant_AQI])
+		aqi, err := func() (int, error) {
+			if pollutantVar.Value > pollutantIndexrange[len(pollutantIndexrange)-1] {
+				return 500, nil
+			}
+			iaqiLo, iaqiHi, pLo, pHi, err := aqi.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[aqi.Pollutant_AQI])
+			if err != nil {
+				return 0, err
+			}
+			return aqi.CalcViaHiLo(pollutantVar.Value, iaqiLo, iaqiHi, pLo, pHi)
+		}()
 		if err != nil {
 			return 0, nil, err
 		}
 
-		aqi, err := aqi.CalcViaHiLo(pollutantVar.Value, iaqiLo, iaqiHi, pLo, pHi)
-		if err != nil {
-			return 0, nil, err
-		}
 		if aqi > maxAQI {
 			maxAQI = aqi
 		}

@@ -12,7 +12,7 @@ var _ aqi.StandardWithColor = &Algo{}
 
 func ExampleAlgo_Calc() {
 	algo := &Algo{}
-	inputs := []aqi.Var{
+	inputs := []*aqi.Var{
 		{
 			P:     aqi.Pollutant_PM2_5_1H,
 			Value: 16,
@@ -56,12 +56,22 @@ func ExampleAlgo_AQIToColor() {
 	// Output: &{0 255 0 0}
 }
 
+func ExampleAlgo_AQIToDesc() {
+	algo := &Algo{}
+	desc, err := algo.AQIToDesc(33)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%v", desc)
+	// Output: 优
+}
+
 func TestAlgo_Calc(t *testing.T) {
 	type fields struct {
 		FailedWhenNotSupported bool
 	}
 	type args struct {
-		pollutantVars []aqi.Var
+		pollutantVars []*aqi.Var
 	}
 	tests := []struct {
 		name    string
@@ -77,7 +87,7 @@ func TestAlgo_Calc(t *testing.T) {
 				FailedWhenNotSupported: false,
 			},
 			args: args{
-				pollutantVars: []aqi.Var{
+				pollutantVars: []*aqi.Var{
 					{
 						P:     aqi.Pollutant_PM2_5_1H,
 						Value: 16,
@@ -131,7 +141,7 @@ func TestAlgo_Calc(t *testing.T) {
 
 func BenchmarkAlgoCalc(b *testing.B) {
 	algo := &Algo{}
-	inputs := []aqi.Var{
+	inputs := []*aqi.Var{
 		{
 			P:     aqi.Pollutant_PM2_5_1H,
 			Value: 16,

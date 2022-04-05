@@ -66,7 +66,7 @@ func (a *Algo) Name() string {
 }
 
 // Calc 计算策略是 HJ633-2012 中的实时报，其中采用 PM2.5 1H, PM10 1H 变量计算
-func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
+func (a *Algo) Calc(pollutantVars ...*aqi.Var) (int, []aqi.Pollutant, error) {
 	var (
 		results = make(map[aqi.Pollutant]int)
 		maxAQI  int
@@ -93,12 +93,17 @@ func (a *Algo) Calc(pollutantVars ...aqi.Var) (int, []aqi.Pollutant, error) {
 			continue
 		}
 
-		iaqiLo, iaqiHi, pLo, pHi, err := aqi.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[aqi.Pollutant_AQI])
-		if err != nil {
-			return 0, nil, err
-		}
+		aqi, err := func() (int, error) {
+			if pollutantVar.Value > pollutantIndexrange[len(pollutantIndexrange)-1] {
+				return 500, nil
+			}
+			iaqiLo, iaqiHi, pLo, pHi, err := aqi.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[aqi.Pollutant_AQI])
+			if err != nil {
+				return 0, err
+			}
+			return aqi.CalcViaHiLo(pollutantVar.Value, iaqiLo, iaqiHi, pLo, pHi)
+		}()
 
-		aqi, err := aqi.CalcViaHiLo(pollutantVar.Value, iaqiLo, iaqiHi, pLo, pHi)
 		if err != nil {
 			return 0, nil, err
 		}
