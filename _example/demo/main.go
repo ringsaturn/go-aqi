@@ -13,11 +13,11 @@ func main() {
 		{
 			P:     aqi.Pollutant_PM2_5_1H,
 			Value: 16,
-		}.MgPerM3ToPPM(),
+		},
 		{
 			P:     aqi.Pollutant_PM10_1H,
 			Value: 88,
-		}.,
+		},
 		{
 			P:     aqi.Pollutant_CO_1H,
 			Value: 0.2,
@@ -39,5 +39,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("aqi=%v with primary pollutant as %v\n", aqi, primaryPollutant)
+	levelDesc, err := algo.AQIToDesc(aqi)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("aqi=%v as level=%v with primary pollutant as %v\n", aqi, levelDesc, primaryPollutant)
 }
