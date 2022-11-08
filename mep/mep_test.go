@@ -1,4 +1,4 @@
-package mep
+package mep_test
 
 import (
 	"fmt"
@@ -6,12 +6,13 @@ import (
 	"testing"
 
 	goaqi "github.com/ringsaturn/go-aqi"
+	"github.com/ringsaturn/go-aqi/mep"
 )
 
-var _ goaqi.StandardWithColor = &Algo{}
+var _ goaqi.StandardWithColor = &mep.Algo{}
 
 func ExampleAlgo_Calc() {
-	algo := &Algo{}
+	algo := &mep.Algo{}
 	inputs := []*goaqi.Var{
 		{
 			P:     goaqi.Pollutant_PM2_5_1H,
@@ -47,7 +48,7 @@ func ExampleAlgo_Calc() {
 }
 
 func ExampleAlgo_AQIToColor() {
-	algo := &Algo{}
+	algo := &mep.Algo{}
 	rgba, err := algo.AQIToColor(33)
 	if err != nil {
 		panic(err)
@@ -57,7 +58,7 @@ func ExampleAlgo_AQIToColor() {
 }
 
 func ExampleAlgo_AQIToDesc() {
-	algo := &Algo{}
+	algo := &mep.Algo{}
 	desc, err := algo.AQIToDesc(33)
 	if err != nil {
 		panic(err)
@@ -121,7 +122,7 @@ func TestAlgo_Calc(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := &Algo{
+			a := &mep.Algo{
 				FailedWhenNotSupported: tt.fields.FailedWhenNotSupported,
 			}
 			got, got1, err := a.Calc(tt.args.pollutantVars...)
@@ -140,7 +141,7 @@ func TestAlgo_Calc(t *testing.T) {
 }
 
 func BenchmarkAlgoCalc(b *testing.B) {
-	algo := &Algo{}
+	algo := &mep.Algo{}
 	inputs := []*goaqi.Var{
 		{
 			P:     goaqi.Pollutant_PM2_5_1H,
@@ -169,5 +170,50 @@ func BenchmarkAlgoCalc(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		_, _, _ = algo.Calc(inputs...)
+	}
+}
+
+var largeData [][]*goaqi.Var
+
+func init() {
+	for i := 0; i < 384; i++ {
+		largeData = append(largeData, []*goaqi.Var{
+			{
+				P:     goaqi.Pollutant_PM2_5_1H,
+				Value: 16,
+			},
+			{
+				P:     goaqi.Pollutant_PM10_1H,
+				Value: 88,
+			},
+			{
+				P:     goaqi.Pollutant_CO_1H,
+				Value: 0.2,
+			},
+			{
+				P:     goaqi.Pollutant_SO2_1H,
+				Value: 3,
+			},
+			{
+				P:     goaqi.Pollutant_NO2_1H,
+				Value: 11,
+			},
+			{
+				P:     goaqi.Pollutant_O3_1H,
+				Value: 75,
+			},
+		},
+		)
+	}
+}
+
+func BenchmarkAlgoCalcOnLargeData(b *testing.B) {
+	algo := &mep.Algo{}
+	for i := 0; i < b.N; i++ {
+		func() {
+			for _, input := range largeData {
+				_, _, _ = algo.Calc(input...)
+			}
+		}()
 	}
 }
