@@ -16,5 +16,5 @@ Please ensure the input value has been converted to the algo expect unit.
 | PM 2.5              | μg/m<sup>3</sup> | μg/m<sup>3</sup> |
 | PM 10               | μg/m<sup>3</sup> | μg/m<sup>3</sup> |
 | SO<sub>2</sub>      | μg/m<sup>3</sup> | ppb              |
-| No<sub>2</sub>      | μg/m<sup>3</sup> | ppb              |
-| Ozone/O<sup>3</sup> | μg/m<sup>3</sup> | ppm              |
+| NO<sub>2</sub>      | μg/m<sup>3</sup> | ppb              |
+| Ozone/O<sub>3</sub> | μg/m<sup>3</sup> | ppm              |
