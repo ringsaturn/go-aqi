@@ -1,4 +1,4 @@
-package aqi
+package goaqi
 
 import (
 	"fmt"

@@ -1,11 +1,12 @@
 syntax = "proto3";
 
-package aqi;
+package goaqi;
 
-option go_package = "./;aqi";
+option go_package = "./;goaqi";
 
 enum pollutant {
   UNKNOWN = 0;
+  AQI = 1;
   O3_1H = 10;
   O3_8H = 11;
   PM2_5_1H = 20;

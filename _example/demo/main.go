@@ -3,35 +3,35 @@ package main
 import (
 	"fmt"
 
-	"github.com/ringsaturn/aqi"
-	"github.com/ringsaturn/aqi/mep"
+	goaqi "github.com/ringsaturn/go-aqi"
+	"github.com/ringsaturn/go-aqi/mep"
 )
 
 func main() {
 	algo := &mep.Algo{}
-	inputs := []*aqi.Var{
+	inputs := []*goaqi.Var{
 		{
-			P:     aqi.Pollutant_PM2_5_1H,
+			P:     goaqi.Pollutant_PM2_5_1H,
 			Value: 16,
 		},
 		{
-			P:     aqi.Pollutant_PM10_1H,
+			P:     goaqi.Pollutant_PM10_1H,
 			Value: 88,
 		},
 		{
-			P:     aqi.Pollutant_CO_1H,
+			P:     goaqi.Pollutant_CO_1H,
 			Value: 0.2,
 		},
 		{
-			P:     aqi.Pollutant_SO2_1H,
+			P:     goaqi.Pollutant_SO2_1H,
 			Value: 3,
 		},
 		{
-			P:     aqi.Pollutant_NO2_1H,
+			P:     goaqi.Pollutant_NO2_1H,
 			Value: 11,
 		},
 		{
-			P:     aqi.Pollutant_O3_1H,
+			P:     goaqi.Pollutant_O3_1H,
 			Value: 75,
 		},
 	}

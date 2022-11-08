@@ -3,20 +3,20 @@ package main
 import (
 	"fmt"
 
-	"github.com/ringsaturn/aqi"
 	"github.com/ringsaturn/aqi/epa"
+	goaqi "github.com/ringsaturn/go-aqi"
 )
 
 func main() {
 	algo := epa.Algo{}
 
-	var inputs = make([]*aqi.Var, 0)
-	pm25_1h := &aqi.Var{P: aqi.Pollutant_PM2_5_1H, Value: 16}
-	pm10_1h := &aqi.Var{P: aqi.Pollutant_PM10_1H, Value: 88}
-	co_1h := &aqi.Var{P: aqi.Pollutant_CO_1H, Value: 0.2}
-	so2_1h := &aqi.Var{P: aqi.Pollutant_SO2_1H, Value: 3}
-	no2_1h := &aqi.Var{P: aqi.Pollutant_NO2_1H, Value: 3}
-	o3_1h := &aqi.Var{P: aqi.Pollutant_O3_1H, Value: 3}
+	var inputs = make([]*goaqi.Var, 0)
+	pm25_1h := &goaqi.Var{P: goaqi.Pollutant_PM2_5_1H, Value: 16}
+	pm10_1h := &goaqi.Var{P: goaqi.Pollutant_PM10_1H, Value: 88}
+	co_1h := &goaqi.Var{P: goaqi.Pollutant_CO_1H, Value: 0.2}
+	so2_1h := &goaqi.Var{P: goaqi.Pollutant_SO2_1H, Value: 3}
+	no2_1h := &goaqi.Var{P: goaqi.Pollutant_NO2_1H, Value: 3}
+	o3_1h := &goaqi.Var{P: goaqi.Pollutant_O3_1H, Value: 3}
 
 	inputs = append(inputs, pm25_1h)
 	inputs = append(inputs, pm10_1h)

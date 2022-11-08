@@ -1,7 +1,7 @@
-# Compute AQI in Go [![ci](https://github.com/ringsaturn/aqi/actions/workflows/ci.yml/badge.svg)](https://github.com/ringsaturn/aqi/actions/workflows/ci.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/ringsaturn/aqi.svg)](https://pkg.go.dev/github.com/ringsaturn/aqi)
+# Compute AQI in Go [![ci](https://github.com/ringsaturn/go-aqi/actions/workflows/ci.yml/badge.svg)](https://github.com/ringsaturn/go-aqi/actions/workflows/ci.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/ringsaturn/go-aqi.svg)](https://pkg.go.dev/github.com/ringsaturn/go-aqi)
 
 ```bash
-go install github.com/ringsaturn/aqi
+go get github.com/ringsaturn/go-aqi
 ```
 
 For usage see [examples](_example/).

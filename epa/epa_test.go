@@ -5,20 +5,20 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ringsaturn/aqi"
+	goaqi "github.com/ringsaturn/go-aqi"
 )
 
-var _ aqi.StandardWithColor = &Algo{}
+var _ goaqi.StandardWithColor = &Algo{}
 
 func ExampleAlgo_Calc() {
 	algo := &Algo{}
-	inputs := []*aqi.Var{
+	inputs := []*goaqi.Var{
 		{
-			P:     aqi.Pollutant_PM2_5_1H,
+			P:     goaqi.Pollutant_PM2_5_1H,
 			Value: 16,
 		},
 		{
-			P:     aqi.Pollutant_PM10_1H,
+			P:     goaqi.Pollutant_PM10_1H,
 			Value: 88,
 		},
 	}
@@ -35,14 +35,14 @@ func TestAlgo_Calc(t *testing.T) {
 		FailedWhenNotSupported bool
 	}
 	type args struct {
-		pollutantVars []*aqi.Var
+		pollutantVars []*goaqi.Var
 	}
 	tests := []struct {
 		name    string
 		fields  fields
 		args    args
 		want    int
-		want1   []aqi.Pollutant
+		want1   []goaqi.Pollutant
 		wantErr bool
 	}{
 		{
@@ -51,14 +51,14 @@ func TestAlgo_Calc(t *testing.T) {
 				FailedWhenNotSupported: false,
 			},
 			args: args{
-				pollutantVars: func() []*aqi.Var {
-					var inputs = make([]*aqi.Var, 0)
-					pm25_1h := &aqi.Var{P: aqi.Pollutant_PM2_5_1H, Value: 16}
-					pm10_1h := &aqi.Var{P: aqi.Pollutant_PM10_1H, Value: 88}
-					co_1h := &aqi.Var{P: aqi.Pollutant_CO_1H, Value: 0.2}
-					so2_1h := &aqi.Var{P: aqi.Pollutant_SO2_1H, Value: 3}
-					no2_1h := &aqi.Var{P: aqi.Pollutant_NO2_1H, Value: 3}
-					o3_1h := &aqi.Var{P: aqi.Pollutant_O3_1H, Value: 3}
+				pollutantVars: func() []*goaqi.Var {
+					var inputs = make([]*goaqi.Var, 0)
+					pm25_1h := &goaqi.Var{P: goaqi.Pollutant_PM2_5_1H, Value: 16}
+					pm10_1h := &goaqi.Var{P: goaqi.Pollutant_PM10_1H, Value: 88}
+					co_1h := &goaqi.Var{P: goaqi.Pollutant_CO_1H, Value: 0.2}
+					so2_1h := &goaqi.Var{P: goaqi.Pollutant_SO2_1H, Value: 3}
+					no2_1h := &goaqi.Var{P: goaqi.Pollutant_NO2_1H, Value: 3}
+					o3_1h := &goaqi.Var{P: goaqi.Pollutant_O3_1H, Value: 3}
 
 					inputs = append(inputs, pm25_1h)
 					inputs = append(inputs, pm10_1h)
@@ -70,7 +70,7 @@ func TestAlgo_Calc(t *testing.T) {
 				}(),
 			},
 			want:    67,
-			want1:   []aqi.Pollutant{aqi.Pollutant_PM10_1H},
+			want1:   []goaqi.Pollutant{goaqi.Pollutant_PM10_1H},
 			wantErr: false,
 		},
 	}
@@ -81,14 +81,14 @@ func TestAlgo_Calc(t *testing.T) {
 			}
 			got, got1, err := a.Calc(tt.args.pollutantVars...)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("aqi.Calc() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("goaqi.Calc() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("aqi.Calc() got = %v, want %v", got, tt.want)
+				t.Errorf("goaqi.Calc() got = %v, want %v", got, tt.want)
 			}
 			if !reflect.DeepEqual(got1, tt.want1) {
-				t.Errorf("aqi.Calc() got1 = %v, want %v", got1, tt.want1)
+				t.Errorf("goaqi.Calc() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
