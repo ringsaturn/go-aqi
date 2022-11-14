@@ -74,7 +74,7 @@ func GetRanges(value float64, pIndexRange []float64, aqiIndexRange []float64) (i
 			return aqiIndexRange[i], aqiIndexRange[i+1], v, pIndexRange[i+1], nil
 		}
 	}
-	return 0, 0, 0, 0, fmt.Errorf("bad range value=%+v for pIndexRange=%+v", value, pIndexRange)
+	return 0, 0, 0, 0, fmt.Errorf("go-aqi: bad range value=%+v for pIndexRange=%+v", value, pIndexRange)
 }
 
 func CalcViaHiLo(value, iaqiLo, iaqiHi, pLo, pHi float64) (int, error) {
