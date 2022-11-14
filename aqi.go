@@ -7,7 +7,7 @@ import (
 
 type Var struct {
 	P     Pollutant
-	Value float32 // only co need float, other need int only
+	Value float64 // only co need float, other need int only
 }
 
 func (v *Var) MiuGPerM3ToPPM() *Var {
@@ -65,7 +65,7 @@ type StandardWithColor interface {
 	AQIToColor(aqi int) (*color.RGBA, error)
 }
 
-func GetRanges(value float32, pIndexRange []float32, aqiIndexRange []float32) (iaqiLo, iaqiHi, pLo, pHi float32, err error) {
+func GetRanges(value float64, pIndexRange []float64, aqiIndexRange []float64) (iaqiLo, iaqiHi, pLo, pHi float64, err error) {
 	for i, v := range pIndexRange {
 		if i == len(pIndexRange)-1 {
 			return aqiIndexRange[i-1], aqiIndexRange[i], pIndexRange[i-1], v, nil
@@ -77,12 +77,12 @@ func GetRanges(value float32, pIndexRange []float32, aqiIndexRange []float32) (i
 	return 0, 0, 0, 0, fmt.Errorf("bad range value=%+v for pIndexRange=%+v", value, pIndexRange)
 }
 
-func CalcViaHiLo(value, iaqiLo, iaqiHi, pLo, pHi float32) (int, error) {
+func CalcViaHiLo(value, iaqiLo, iaqiHi, pLo, pHi float64) (int, error) {
 	return int((iaqiHi-iaqiLo)/(pHi-pLo)*(value-pLo) + iaqiLo), nil
 }
 
 // https://teesing.com/en/library/tools/ppm-mg3-converter
-var MolecularWeight = map[Pollutant]float32{
+var MolecularWeight = map[Pollutant]float64{
 	Pollutant_CO_1H:   28.01,
 	Pollutant_CO_8H:   28.01,
 	Pollutant_CO_24H:  28.01,
@@ -94,26 +94,26 @@ var MolecularWeight = map[Pollutant]float32{
 	Pollutant_SO2_24H: 64.06,
 }
 
-func PPMToPPB(value float32) float32 {
+func PPMToPPB(value float64) float64 {
 	return 1000 * value
 }
 
-func PPBToPPM(value float32) float32 {
+func PPBToPPM(value float64) float64 {
 	return value / 1000
 }
 
-func PPMToMgPerM3(p Pollutant, value float32) float32 {
+func PPMToMgPerM3(p Pollutant, value float64) float64 {
 	return 0.0409 * value * MolecularWeight[p]
 }
 
-func MgPerM3ToPPM(p Pollutant, value float32) float32 {
+func MgPerM3ToPPM(p Pollutant, value float64) float64 {
 	return 24.45 * value / MolecularWeight[p]
 }
 
-func MiuGPerM3ToMgPerM3(v float32) float32 {
+func MiuGPerM3ToMgPerM3(v float64) float64 {
 	return v / 1000
 }
 
-func MgGPerM3ToMiuGPerM3(v float32) float32 {
+func MgGPerM3ToMiuGPerM3(v float64) float64 {
 	return v * 1000
 }

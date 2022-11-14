@@ -11,7 +11,7 @@ import (
 	goaqi "github.com/ringsaturn/go-aqi"
 )
 
-var Tables = map[goaqi.Pollutant][]float32{
+var Tables = map[goaqi.Pollutant][]float64{
 	goaqi.Pollutant_AQI:       {0, 50, 100, 150, 200, 300, 400, 500},
 	goaqi.Pollutant_CO_8H:     {0, 4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4},      // ppm
 	goaqi.Pollutant_SO2_1H:    {0, 35, 75, 185, 304, 604, 804, 1004},            // ppb
