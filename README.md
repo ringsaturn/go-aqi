@@ -10,7 +10,7 @@ NOTE: Currently the algo impl is based on the different standard files and
 different AQI Standard use different units. Please ensure the input value has
 been converted to the algo expect unit.
 
-| Pollutant  | CO               | PM 2.5           | PM 10            | SO2              | NO2              | Ozone/O3         |
-| ---------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- |
-| MEP(China) | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> |
-| EPA(USA)   | ppm              | μg/m<sup>3</sup> | μg/m<sup>3</sup> | ppb              | ppb              | ppm              |
+|            | CO               | PM 2.5           | PM 10            | SO<sub>2</sub>   | NO<sub>2</sub>   | Ozone/O<sub>3</sub> |
+| ---------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- | ------------------- |
+| MEP(China) | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup>    |
+| EPA(USA)   | ppm              | μg/m<sup>3</sup> | μg/m<sup>3</sup> | ppb              | ppb              | ppm                 |
