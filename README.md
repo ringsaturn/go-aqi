@@ -7,14 +7,10 @@ go get github.com/ringsaturn/go-aqi
 For usage see [examples](_example/).
 
 NOTE: Currently the algo impl is based on the different standard files and
-different AQI Standard use different units.
-Please ensure the input value has been converted to the algo expect unit.
+different AQI Standard use different units. Please ensure the input value has
+been converted to the algo expect unit.
 
-| Pollutant           | MEP(China)       | EPA(USA)         |
-| ------------------- | ---------------- | ---------------- |
-| CO                  | mg/m<sup>3</sup> | ppm              |
-| PM 2.5              | μg/m<sup>3</sup> | μg/m<sup>3</sup> |
-| PM 10               | μg/m<sup>3</sup> | μg/m<sup>3</sup> |
-| SO<sub>2</sub>      | μg/m<sup>3</sup> | ppb              |
-| NO<sub>2</sub>      | μg/m<sup>3</sup> | ppb              |
-| Ozone/O<sub>3</sub> | μg/m<sup>3</sup> | ppm              |
+| Pollutant  | CO               | PM 2.5           | PM 10            | SO2              | NO2              | Ozone/O3         |
+| ---------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- |
+| MEP(China) | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> | μg/m<sup>3</sup> |
+| EPA(USA)   | ppm              | μg/m<sup>3</sup> | μg/m<sup>3</sup> | ppb              | ppb              | ppm              |
