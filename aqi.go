@@ -83,15 +83,15 @@ func CalcViaHiLo(value, iaqiLo, iaqiHi, pLo, pHi float64) (int, error) {
 
 // https://teesing.com/en/library/tools/ppm-mg3-converter
 var MolecularWeight = map[Pollutant]float64{
-	Pollutant_CO_1H:   28.01,
-	Pollutant_CO_8H:   28.01,
-	Pollutant_CO_24H:  28.01,
-	Pollutant_NO2_1H:  46.01,
-	Pollutant_NO2_24H: 46.01,
-	Pollutant_O3_1H:   48,
-	Pollutant_O3_8H:   48,
-	Pollutant_SO2_1H:  64.06,
-	Pollutant_SO2_24H: 64.06,
+	CO_1H:   28.01,
+	CO_8H:   28.01,
+	CO_24H:  28.01,
+	NO2_1H:  46.01,
+	NO2_24H: 46.01,
+	O3_1H:   48,
+	O3_8H:   48,
+	SO2_1H:  64.06,
+	SO2_24H: 64.06,
 }
 
 func PPMToPPB(value float64) float64 {
