@@ -11,7 +11,7 @@ import (
 	goaqi "github.com/ringsaturn/go-aqi"
 )
 
-var Tables = map[goaqi.Pollutant][]float64{
+var tables = map[goaqi.Pollutant][]float64{
 	goaqi.AQI:       {0, 50, 100, 150, 200, 300, 400, 500},
 	goaqi.CO_8H:     {0, 4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4},      // ppm
 	goaqi.SO2_1H:    {0, 35, 75, 185, 304, 604, 804, 1004},            // ppb
@@ -36,7 +36,7 @@ const (
 	LEVEL6
 )
 
-var LevelToColor = map[AQILevel]*color.RGBA{
+var levelToColor = map[AQILevel]*color.RGBA{
 	LEVEL1: {R: 0, G: 228, B: 0},
 	LEVEL2: {R: 255, G: 255, B: 0},
 	LEVEL3: {R: 255, G: 126, B: 0},
@@ -45,7 +45,7 @@ var LevelToColor = map[AQILevel]*color.RGBA{
 	LEVEL6: {R: 126, G: 0, B: 35},
 }
 
-var LevelToDesc = map[AQILevel]string{
+var levelToDesc = map[AQILevel]string{
 	LEVEL1: "Good",
 	LEVEL2: "Moderate",
 	LEVEL3: "Unhealthy for Sensitive Groups",
@@ -54,9 +54,7 @@ var LevelToDesc = map[AQILevel]string{
 	LEVEL6: "Hazardous",
 }
 
-type Algo struct {
-	FailedWhenNotSupported bool
-}
+type Algo struct{}
 
 func (a *Algo) Name() string {
 	return "epa"
@@ -70,12 +68,8 @@ func (a *Algo) Calc(pollutantVars ...*goaqi.Var) (int, []goaqi.Pollutant, error)
 	)
 
 	for _, pollutantVar := range pollutantVars {
-		pollutantIndexrange, ok := Tables[pollutantVar.P]
+		pollutantIndexRange, ok := tables[pollutantVar.P]
 		if !ok {
-			if a.FailedWhenNotSupported {
-				return 0, nil, fmt.Errorf("pollutant %v not supported yet", pollutantVar.P.String())
-			}
-			// allow input not supported pollutant, just continue
 			continue
 		}
 
@@ -92,10 +86,10 @@ func (a *Algo) Calc(pollutantVars ...*goaqi.Var) (int, []goaqi.Pollutant, error)
 		}
 
 		aqi, err := func() (int, error) {
-			if pollutantVar.Value > pollutantIndexrange[len(pollutantIndexrange)-1] {
+			if pollutantVar.Value > pollutantIndexRange[len(pollutantIndexRange)-1] {
 				return 500, nil
 			}
-			iaqiLo, iaqiHi, pLo, pHi, err := goaqi.GetRanges(pollutantVar.Value, pollutantIndexrange, Tables[goaqi.AQI])
+			iaqiLo, iaqiHi, pLo, pHi, err := goaqi.GetRanges(pollutantVar.Value, pollutantIndexRange, tables[goaqi.AQI])
 			if err != nil {
 				return 0, err
 			}
@@ -142,7 +136,7 @@ func (a *Algo) AQIToLevel(aqi int) AQILevel {
 }
 
 func (a *Algo) AQIToColor(aqi int) (*color.RGBA, error) {
-	rgba, ok := LevelToColor[a.AQIToLevel(aqi)]
+	rgba, ok := levelToColor[a.AQIToLevel(aqi)]
 	if !ok {
 		return nil, fmt.Errorf("unknown aqi level for color")
 	}
@@ -150,7 +144,7 @@ func (a *Algo) AQIToColor(aqi int) (*color.RGBA, error) {
 }
 
 func (a *Algo) AQIToDesc(aqi int) (string, error) {
-	desc, ok := LevelToDesc[a.AQIToLevel(aqi)]
+	desc, ok := levelToDesc[a.AQIToLevel(aqi)]
 	if !ok {
 		return "", fmt.Errorf("unknown aqi level for desc")
 	}

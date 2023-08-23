@@ -122,9 +122,7 @@ func TestAlgo_Calc(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := &mep.Algo{
-				FailedWhenNotSupported: tt.fields.FailedWhenNotSupported,
-			}
+			a := &mep.Algo{}
 			got, got1, err := a.Calc(tt.args.pollutantVars...)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("goaqi.Calc() error = %v, wantErr %v", err, tt.wantErr)

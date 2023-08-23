@@ -55,8 +55,10 @@ func (v *Var) PPBToMgPerM3() *Var {
 }
 
 type Standard interface {
+	// Like `epa` or `mep`
 	Name() string
-	// Calc 返回多个污染物表示并列首要污染物
+
+	// Calc returns multiple pollutants indicating parallel primary pollutants.
 	Calc(pollutantVars ...*Var) (int, []Pollutant, error)
 }
 
@@ -82,7 +84,7 @@ func CalcViaHiLo(value, iaqiLo, iaqiHi, pLo, pHi float64) (int, error) {
 }
 
 // https://teesing.com/en/library/tools/ppm-mg3-converter
-var MolecularWeight = map[Pollutant]float64{
+var molecularWeight = map[Pollutant]float64{
 	CO_1H:   28.01,
 	CO_8H:   28.01,
 	CO_24H:  28.01,
@@ -103,11 +105,19 @@ func PPBToPPM(value float64) float64 {
 }
 
 func PPMToMgPerM3(p Pollutant, value float64) float64 {
-	return 0.0409 * value * MolecularWeight[p]
+	v, ok := molecularWeight[p]
+	if !ok {
+		return value
+	}
+	return 0.0409 * value * v
 }
 
 func MgPerM3ToPPM(p Pollutant, value float64) float64 {
-	return 24.45 * value / MolecularWeight[p]
+	v, ok := molecularWeight[p]
+	if !ok {
+		return value
+	}
+	return 24.45 * value / v
 }
 
 func MiuGPerM3ToMgPerM3(v float64) float64 {
