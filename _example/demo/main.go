@@ -11,27 +11,27 @@ func main() {
 	algo := &mep.Algo{}
 	inputs := []*goaqi.Var{
 		{
-			P:     goaqi.Pollutant_PM2_5_1H,
+			P:     goaqi.PM2_5_1H,
 			Value: 16,
 		},
 		{
-			P:     goaqi.Pollutant_PM10_1H,
+			P:     goaqi.PM10_1H,
 			Value: 88,
 		},
 		{
-			P:     goaqi.Pollutant_CO_1H,
+			P:     goaqi.CO_1H,
 			Value: 0.2,
 		},
 		{
-			P:     goaqi.Pollutant_SO2_1H,
+			P:     goaqi.SO2_1H,
 			Value: 3,
 		},
 		{
-			P:     goaqi.Pollutant_NO2_1H,
+			P:     goaqi.NO2_1H,
 			Value: 11,
 		},
 		{
-			P:     goaqi.Pollutant_O3_1H,
+			P:     goaqi.O3_1H,
 			Value: 75,
 		},
 	}

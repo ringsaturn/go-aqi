@@ -14,11 +14,11 @@ func ExampleAlgo_Calc() {
 	algo := &Algo{}
 	inputs := []*goaqi.Var{
 		{
-			P:     goaqi.Pollutant_PM2_5_1H,
+			P:     goaqi.PM2_5_1H,
 			Value: 16,
 		},
 		{
-			P:     goaqi.Pollutant_PM10_1H,
+			P:     goaqi.PM10_1H,
 			Value: 88,
 		},
 	}
@@ -53,12 +53,12 @@ func TestAlgo_Calc(t *testing.T) {
 			args: args{
 				pollutantVars: func() []*goaqi.Var {
 					var inputs = make([]*goaqi.Var, 0)
-					pm25_1h := &goaqi.Var{P: goaqi.Pollutant_PM2_5_1H, Value: 16}
-					pm10_1h := &goaqi.Var{P: goaqi.Pollutant_PM10_1H, Value: 88}
-					co_1h := &goaqi.Var{P: goaqi.Pollutant_CO_1H, Value: 0.2}
-					so2_1h := &goaqi.Var{P: goaqi.Pollutant_SO2_1H, Value: 3}
-					no2_1h := &goaqi.Var{P: goaqi.Pollutant_NO2_1H, Value: 3}
-					o3_1h := &goaqi.Var{P: goaqi.Pollutant_O3_1H, Value: 3}
+					pm25_1h := &goaqi.Var{P: goaqi.PM2_5_1H, Value: 16}
+					pm10_1h := &goaqi.Var{P: goaqi.PM10_1H, Value: 88}
+					co_1h := &goaqi.Var{P: goaqi.CO_1H, Value: 0.2}
+					so2_1h := &goaqi.Var{P: goaqi.SO2_1H, Value: 3}
+					no2_1h := &goaqi.Var{P: goaqi.NO2_1H, Value: 3}
+					o3_1h := &goaqi.Var{P: goaqi.O3_1H, Value: 3}
 
 					inputs = append(inputs, pm25_1h)
 					inputs = append(inputs, pm10_1h)
@@ -70,7 +70,7 @@ func TestAlgo_Calc(t *testing.T) {
 				}(),
 			},
 			want:    67,
-			want1:   []goaqi.Pollutant{goaqi.Pollutant_PM10_1H},
+			want1:   []goaqi.Pollutant{goaqi.PM10_1H},
 			wantErr: false,
 		},
 	}
