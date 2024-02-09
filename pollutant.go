@@ -19,3 +19,11 @@ const (
 	CO_8H     Pollutant = 61 // Carbon Monoxide 8 hour
 	CO_24H    Pollutant = 62 // Carbon Monoxide 24 hour
 )
+
+type AQIStandard int32
+
+const (
+	AQISTANDARD_UNSPECIFIED AQIStandard = 0 // Unspecified
+	AQISTANDARD_US          AQIStandard = 1 // US AQI
+	AQISTANDARD_CN          AQIStandard = 2 // China AQI
+)

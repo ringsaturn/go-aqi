@@ -11,6 +11,8 @@ import (
 	goaqi "github.com/ringsaturn/go-aqi"
 )
 
+const Standard = goaqi.AQISTANDARD_CN
+
 var tables = map[goaqi.Pollutant][]float64{
 	goaqi.AQI:       {0, 50, 100, 150, 200, 300, 400, 500},
 	goaqi.CO_1H:     {0, 5, 10, 35, 60, 90, 120, 150},           // mg/m3
