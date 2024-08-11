@@ -173,7 +173,6 @@ func BenchmarkAlgoCalc(b *testing.B) {
 
 var (
 	largeData [][]*goaqi.Var
-	lessData  [][]*goaqi.Var
 )
 
 func init() {
