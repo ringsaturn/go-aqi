@@ -67,11 +67,11 @@ func (a *Algo) Name() string {
 // Calc is func for realtime AQI report computing.
 func (a *Algo) Calc(pollutantVars ...*goaqi.Var) (int, []goaqi.Pollutant, error) {
 	var (
-		results = make(map[goaqi.Pollutant]int)
+		results = make([]*goaqi.Var, len(pollutantVars))
 		maxAQI  int
 	)
 
-	for _, pollutantVar := range pollutantVars {
+	for idx, pollutantVar := range pollutantVars {
 		pollutantIndexRange, ok := tables[pollutantVar.P]
 		if !ok {
 			continue
@@ -106,15 +106,15 @@ func (a *Algo) Calc(pollutantVars ...*goaqi.Var) (int, []goaqi.Pollutant, error)
 		if aqi > maxAQI {
 			maxAQI = aqi
 		}
-		results[pollutantVar.P] = aqi
+		results[idx] = &goaqi.Var{P: pollutantVar.P, Value: float64(aqi)}
 	}
 	if maxAQI <= 50 {
 		return maxAQI, nil, nil
 	}
-	primaryPollutants := make([]goaqi.Pollutant, 0)
-	for pollutant, value := range results {
-		if value == maxAQI {
-			primaryPollutants = append(primaryPollutants, pollutant)
+	primaryPollutants := make([]goaqi.Pollutant, 0, len(pollutantVars)) // Set cap can reduce 10ns when append value to slice per time.
+	for _, result := range results {
+		if result.Value == float64(maxAQI) {
+			primaryPollutants = append(primaryPollutants, result.P)
 		}
 	}
 	return maxAQI, primaryPollutants, nil

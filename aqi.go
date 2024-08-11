@@ -68,8 +68,9 @@ type StandardWithColor interface {
 }
 
 func GetRanges(value float64, pIndexRange []float64, aqiIndexRange []float64) (iaqiLo, iaqiHi, pLo, pHi float64, err error) {
+	lastIdx := len(pIndexRange) - 1
 	for i, v := range pIndexRange {
-		if i == len(pIndexRange)-1 {
+		if i == lastIdx {
 			return aqiIndexRange[i-1], aqiIndexRange[i], pIndexRange[i-1], v, nil
 		}
 		if pIndexRange[i] < value && value <= pIndexRange[i+1] {
