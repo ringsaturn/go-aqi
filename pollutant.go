@@ -26,4 +26,5 @@ const (
 	AQISTANDARD_UNSPECIFIED AQIStandard = 0 // Unspecified
 	AQISTANDARD_US          AQIStandard = 1 // US AQI
 	AQISTANDARD_CN          AQIStandard = 2 // China AQI
+	AQISTANDARD_EU          AQIStandard = 3 // EU AQI
 )
