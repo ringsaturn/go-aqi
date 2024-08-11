@@ -171,36 +171,41 @@ func BenchmarkAlgoCalc(b *testing.B) {
 	}
 }
 
-var largeData [][]*goaqi.Var
+var (
+	largeData [][]*goaqi.Var
+	lessData  [][]*goaqi.Var
+)
 
 func init() {
 	for i := 0; i < 384; i++ {
-		largeData = append(largeData, []*goaqi.Var{
-			{
-				P:     goaqi.PM2_5_1H,
-				Value: 16,
+		largeData = append(
+			largeData,
+			[]*goaqi.Var{
+				{
+					P:     goaqi.PM2_5_1H,
+					Value: 16,
+				},
+				{
+					P:     goaqi.PM10_1H,
+					Value: 88,
+				},
+				{
+					P:     goaqi.CO_1H,
+					Value: 0.2,
+				},
+				{
+					P:     goaqi.SO2_1H,
+					Value: 3,
+				},
+				{
+					P:     goaqi.NO2_1H,
+					Value: 11,
+				},
+				{
+					P:     goaqi.O3_1H,
+					Value: 75,
+				},
 			},
-			{
-				P:     goaqi.PM10_1H,
-				Value: 88,
-			},
-			{
-				P:     goaqi.CO_1H,
-				Value: 0.2,
-			},
-			{
-				P:     goaqi.SO2_1H,
-				Value: 3,
-			},
-			{
-				P:     goaqi.NO2_1H,
-				Value: 11,
-			},
-			{
-				P:     goaqi.O3_1H,
-				Value: 75,
-			},
-		},
 		)
 	}
 }
@@ -212,6 +217,20 @@ func BenchmarkAlgoCalcOnLargeData(b *testing.B) {
 			for _, input := range largeData {
 				_, _, _ = algo.Calc(input...)
 			}
+		}()
+	}
+}
+
+func BenchmarkAlgoCalcOnSingleDataset(b *testing.B) {
+	algo := &mep.Algo{}
+	for i := 0; i < b.N; i++ {
+		func() {
+			_, _, _ = algo.Calc(
+				&goaqi.Var{
+					P:     goaqi.PM10_1H,
+					Value: 88,
+				},
+			)
 		}()
 	}
 }
