@@ -1,5 +1,8 @@
 // Package mep is for HJ633-2012
 //
+// Mep is the abbreviation of Ministry of Environmental Protection of the People's Republic of China.
+// The institution was established in 2008 and was merged into the Ministry of Ecology and Environment of the People's Republic of China in 2018.
+//
 // Offical Doc
 // https://www.mee.gov.cn/ywgz/fgbz/bz/bzwb/jcffbz/201203/t20120302_224166.shtml
 package mep

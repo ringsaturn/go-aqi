@@ -1,5 +1,7 @@
 // Package epa is impl for EPA 454/B-18-007
 //
+// The EPA is the abbreviation of the United States Environmental Protection Agency.
+//
 // Offical Doc
 // https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=P100W5UG.TXT
 package epa
